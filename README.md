@@ -4,12 +4,11 @@
 This repository contains the implementation details and design of a RISC-V single-cycle microarchitecture. The document explores the components, state elements, and datapath development for handling various RISC-V instruction types, including Load, Store, and Register-based operations.
 
 ---
-![TOP Architecture ](Fig/Top_arc.png)
+![TOP Architecture](Fig/Top_arc.png)
 
 ## Key Components
 
 ### 1. Arithmetic Logic Unit (ALU)
-#### Block Diagram (1.1.2)
 The ALU is a central component responsible for performing arithmetic and logical operations. Its design includes:
 - **Arithmetic Operations:** Addition, subtraction, and set-on-less-than (SLT).
 - **Logical Operations:** AND and OR.
@@ -19,10 +18,11 @@ The ALU is a central component responsible for performing arithmetic and logical
 
 The design is modular, using multiplexers to select outputs from logical and arithmetic blocks based on the control signal, simplifying implementation and ensuring scalability.
 
+![Arithmetic Logic Unit](Fig/Alu.png)
+
 ---
 
 ### 2. Control Unit
-#### Block Diagram (2.1.2)
 The Control Unit orchestrates the operation of the microarchitecture. Key features include:
 - **Instruction Decoding:** Separates main decoding and ALU decoding into modular combinational blocks.
   - **Main Decoder:** Generates control signals based on the opcode.
@@ -34,7 +34,6 @@ The unit ensures efficient execution of RISC-V instruction types by isolating co
 ---
 
 ### 3. Designing Microarchitecture - State Elements
-#### State Elements (3.1.1)
 State elements form the backbone of the processor, maintaining the current and next state:
 - **Components:**
   - **Program Counter (PC):** Holds the address of the current instruction.
@@ -48,7 +47,6 @@ The modular design, separating instruction and data memories, ensures clarity an
 ---
 
 ### 4. Designing Microarchitecture - Load Word Instruction
-#### DataPath for Load Word (4.1.2)
 The datapath for the `lw` (load word) instruction involves:
 - **Address Calculation:** Combines the base address from the source register (`rs1`) with a sign-extended immediate offset.
 - **Memory Access:** Uses the calculated address to fetch data from memory.
@@ -57,12 +55,15 @@ The datapath for the `lw` (load word) instruction involves:
 
 ![Load Word Datapath](Fig/Load.png)
 
-A dedicated ALU adds the base and offset, enabling efficient memory addressing.
+**Explanation of Figure**:
+- The `PC` provides the address to fetch the instruction from the instruction memory.
+- The `Extend` block sign-extends the immediate value.
+- The `ALU` calculates the effective memory address by adding the base address (`rs1`) to the immediate value.
+- The calculated address is used to fetch the data from the data memory, which is then written to the destination register (`rd`).
 
 ---
 
 ### 5. Designing Microarchitecture - Store Word Instruction
-#### DataPath for Store Word (5.1.2)
 The datapath for the `sw` (store word) instruction includes:
 - **Address Calculation:** Similar to `lw`, using the base address (`rs1`) and sign-extended offset.
 - **Data Write:** Reads the value from the second source register (`rs2`) and writes it to the calculated memory address.
@@ -72,19 +73,17 @@ The datapath for the `sw` (store word) instruction includes:
 
 ![Store Word Datapath](Fig/Store.png)
 
-The design ensures proper control over memory and register interactions, maintaining execution integrity.
+**Explanation of Figure**:
+- The `PC` provides the address to fetch the instruction from the instruction memory.
+- The `Extend` block sign-extends the immediate value.
+- The `ALU` calculates the effective memory address by adding the base address (`rs1`) to the immediate value.
+- The data from `rs2` is written to the calculated address in the data memory, controlled by the `MemWrite` signal.
 
 ---
 
-## File Structure
-- **`src/`**: Source code for the RISC-V microarchitecture design.
-- **`docs/`**: Detailed documentation, including the PDF referenced.
-- **`Figures/`**: Block diagrams and datapath visuals.
-- **`README.md`**: Overview and instructions for the repository.
+## Simulation Using Icarus Verilog
+This repository supports simulation using **Icarus Verilog**. Follow the steps below to simulate the design:
 
----
-
-## Getting Started
-1. Clone this repository:
+1. Compile the Verilog files along with the testbench:
    ```bash
-   git clone https://github.com/yourusername/riscv-single-cycle-microarchitecture.git
+   iverilog -o SingleCycleMicro Single_Cycle_Top.v Single_Cycle_Top_Tb.v
