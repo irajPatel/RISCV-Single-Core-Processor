@@ -4,6 +4,7 @@
 This repository contains the implementation details and design of a RISC-V single-cycle microarchitecture. The document explores the components, state elements, and datapath development for handling various RISC-V instruction types, including Load, Store, and Register-based operations.
 
 ---
+![TOP Architecture ](Fig/Top_arc.png)
 
 ## Key Components
 
@@ -54,7 +55,7 @@ The datapath for the `lw` (load word) instruction involves:
 - **Data Writeback:** Transfers the fetched data to the destination register (`rd`).
 - **PC Update:** Increments the program counter (`PC`) by 4 for the next instruction.
 
-![Load Word Datapath](Figures/load_word_datapath.png)
+![Load Word Datapath](Fig/Load.png)
 
 A dedicated ALU adds the base and offset, enabling efficient memory addressing.
 
@@ -69,7 +70,7 @@ The datapath for the `sw` (store word) instruction includes:
   - `MemWrite = 1`: Enables memory writing.
   - `RegWrite = 0`: Ensures no changes to registers during store operations.
 
-![Store Word Datapath](Figures/store_word_datapath.png)
+![Store Word Datapath](Fig/Store.png)
 
 The design ensures proper control over memory and register interactions, maintaining execution integrity.
 
