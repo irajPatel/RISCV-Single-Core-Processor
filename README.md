@@ -87,3 +87,12 @@ This repository supports simulation using **Icarus Verilog**. Follow the steps b
 1. Compile the Verilog files along with the testbench:
    ```bash
    iverilog -o SingleCycleMicro Single_Cycle_Top.v Single_Cycle_Top_Tb.v
+
+ ## References
+
+- [RISCV Single Core Playlist by Ameya Walimbe](https://www.youtube.com/watch?v=BVvDHhG0RoA&list=PL5AmAh9QoSK7Fwk9vOJu-3VqBng_HjGFc)
+  
+
+
+
+
